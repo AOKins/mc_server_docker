@@ -12,6 +12,9 @@ My intention for the setup is to be relatively minimal yet flexible so can be ea
 used in newer versions.
 Therefore elements such as .jar files are omitted.
 
+The setup in the DockerFile includes installing nano as an available editor if needing
+to edit the container's files in an interactive shell within the container.
+
 The latest setup also has involved setting up usage for dynmap and voice chat, and
 so there default ports are set to be exposed by the docker container if so enabled
 (along with rcon).
@@ -34,15 +37,24 @@ Create and then start a container (actual server to run with) with a command suc
 docker create -p 25565:25565 <container name> --name=<container name> <image name>
 docker start <container name>
 ```
-In the above example, only one port is expose (via the `-p` argument).
-If looking to change the port for the minecraft server, change the first of the two
-values.
-In the container's context the port will still be 25565, but on the actual machine
-the selected port is what it will be actually be listening on.
+Note: alternatively instead of `create` you can use `run` and consider adding arguments `-it`,
+this will start up the container interactively and enable future attaching to the container.
 
+In the above example, only one port is expose (via the `-p` argument).
+If looking to change the port for the minecraft server, change the first of the two values.
+In the container's context the port will still be 25565, but on the actual machine
+the selected port is what it will be actually be listening on and available with.
+
+Note: by default the exposed port is only for the TCP protocol, so if necessary you may need
+to specify UDP if that is needed instead (such as with voice chat plugin).
+
+**Managing/Interacting with the Server**
 You can shutdown the server via `docker stop <container name>`.
 Then start it back up again using `docker start <container name>`.
 
 If you want an interactive bash shell in the container, while it is active
 use a command of the form `docker exec -it <container name> bash`.
 This is useful if you wish to use the CLI to navigate around the container's files.
+
+If you need access to the server's interactive prompt (to run minecraft commands and the like), use the command
+`docker attach <container name>`.

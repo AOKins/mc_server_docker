@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
   apt-transport-https \
   gnupg \ 
   wget \
+  nano \
   git
 # Setting up to Amazon Corretto public key
 RUN wget -O - https://apt.corretto.aws/corretto.key | gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg
